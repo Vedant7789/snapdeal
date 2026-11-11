@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Snapdeal Seller Assistant</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #14101a;
+            --muted: #6d5d64;
+            --line: #eadfe0;
+            --shell: #fdf0ee;
+
+            --violet: #8b3df0;
+            --magenta: #c94fb8;
+            --coral: #f0705f;
+            --amber: #f59a5c;
+
+            --grad-frame: linear-gradient(115deg, #7b3fe4 0%, #b350c0 42%, #ee6a76 78%, #f59a5c 100%);
+            --grad-text: linear-gradient(90deg, #8b3df0 0%, #c04cc0 55%, #e9617f 100%);
+            --grad-btn: linear-gradient(90deg, #8e44e8 0%, #d4577e 62%, #f08a5d 100%);
+
+            --font: "Plus Jakarta Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        h1, h2, h3, p { margin: 0; }
+
+        button, input { font: inherit; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 40px 56px;
+            color: var(--ink);
+            font-family: var(--font);
+            font-size: 16px;
+            line-height: 1.5;
+            background: var(--grad-frame);
+            background-attachment: fixed;
+        }
+
+
+        /* ---------- Rounded shell ---------- */
+
+        .app {
+            max-width: 1360px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 36px;
+            background:
+                radial-gradient(520px 320px at 0% 0%, rgba(255, 255, 255, 0.9), transparent 70%),
+                radial-gradient(700px 420px at 88% 30%, rgba(255, 206, 190, 0.65), transparent 70%),
+                var(--shell);
+            box-shadow: 0 40px 80px -30px rgba(60, 10, 80, 0.45);
+        }
+
+
+        /* ---------- Top bar ---------- */
+
+        .topbar {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 24px;
+            padding: 26px 48px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            color: #fff;
+            font-weight: 800;
+            font-size: 22px;
+            background: var(--ink);
+            border-radius: 13px;
+        }
+
+        .brand-text h1 {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-text p {
+            font-size: 11.5px;
+            color: var(--muted);
+        }
+
+        .nav {
+            display: flex;
+            gap: 34px;
+        }
+
+        .nav a {
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .nav a:hover { color: var(--violet); }
+
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            color: var(--ink);
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+        }
+
+
+        /* ---------- Hero ---------- */
+
+        .hero {
+            display: grid;
+            grid-template-columns: 4.5fr 7.5fr;
+            align-items: center;
+            gap: 32px;
+            padding: 44px 48px 44px;
+        }
+
+        .headline {
+            font-size: clamp(36px, 3.7vw, 58px);
+            font-weight: 800;
+            line-height: 1.04;
+            letter-spacing: -0.045em;
+        }
+
+        .headline .grad {
+            display: block;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .lede {
+            margin-top: 24px;
+            max-width: 400px;
+            font-size: 14.5px;
+            color: var(--muted);
+        }
+
+        .cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 22px;
+            height: 50px;
+            font-size: 14.5px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 16px;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn:hover { transform: translateY(-1px); }
+
+        .btn-primary {
+            padding-left: 8px;
+            color: #fff;
+            background: var(--grad-btn);
+            border: none;
+            box-shadow: 0 12px 24px -12px rgba(190, 70, 140, 0.8);
+        }
+
+        .btn-primary .btn-dot {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+            border-radius: 50%;
+        }
+
+        .btn-ghost {
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--line);
+        }
+
+        .btn:focus-visible,
+        .mic-button:focus-visible,
+        #sendButton:focus-visible,
+        .strip-link:focus-visible {
+            outline: 3px solid var(--violet);
+            outline-offset: 3px;
+        }
+
+        .perks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 22px;
+            margin: 26px 0 0;
+            padding: 0;
+            list-style: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .perks li::before {
+            content: "";
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            margin-right: 7px;
+            vertical-align: middle;
+            background: var(--magenta);
+            border-radius: 50%;
+        }
+
+
+        /* ---------- Visual: tiles + voice stage ---------- */
+
+        .visual {
+            position: relative;
+            display: grid;
+            grid-template-columns: 124px minmax(0, 1fr) 124px;
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .tiles {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 36px 0 20px;
+        }
+
+        .tiles.right { padding: 12px 0 44px; }
+
+        .metric {
+            padding: 12px 12px 12px;
+            background:
+                linear-gradient(#fff, #fff) padding-box,
+                linear-gradient(135deg, #d9b3f7, #f8c2b4) border-box;
+            border: 1.5px solid transparent;
+            border-radius: 18px;
+            box-shadow: 0 14px 28px -20px rgba(120, 40, 120, 0.6);
+        }
+
+        .metric-label {
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .metric-value {
+            margin-top: 2px;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
+        }
+
+        .metric-change {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 2px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #c4301c;
+            background: #ffe4df;
+            border-radius: 999px;
+        }
+
+        .stage {
+            position: relative;
+            min-width: 0;
+        }
+
+        .badge {
+            position: absolute;
+            z-index: 3;
+            top: -14px;
+            right: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 24px -12px rgba(60, 10, 80, 0.5);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #2fcf7a;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px rgba(47, 207, 122, 0.22);
+        }
+
+        .spark {
+            position: absolute;
+            left: -25px;
+            top: 55%;
+            z-index: 3;
+            display: grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            color: #fff;
+            background: linear-gradient(135deg, #9b4bf0, #e0589a);
+            border: 3px solid var(--shell);
+            border-radius: 50%;
+        }
+
+
+        /* dark voice card */
+
+        .voice-card {
+            padding: 18px 18px 48px;
+            color: #fff;
+            background: #0d0a14;
+            border-radius: 22px;
+        }
+
+        .voice-card h3 {
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .voice-card p {
+            margin-top: 2px;
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .wave {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            margin-top: 16px;
+        }
+
+        .wave i {
+            display: block;
+            width: 3px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .wave i.played { background: rgba(255, 255, 255, 0.9); }
+
+        .wave::after {
+            content: "";
+            position: absolute;
+            left: 41%;
+            top: -4px;
+            bottom: -4px;
+            width: 2px;
+            background: #ff4d5e;
+            border-radius: 2px;
+        }
+
+        .voice:has(.mic-button.listening) .wave i {
+            animation: bounce 0.9s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scaleY(0.35); }
+            50%      { transform: scaleY(1); }
+        }
+
+
+        /* pill with mic overlapping the dark card */
+
+        .voice-bar {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: -32px 10px 0;
+            padding: 8px 18px 8px 8px;
+            background: #fff;
+            border-radius: 999px;
+            box-shadow: 0 16px 30px -16px rgba(60, 10, 80, 0.55);
+        }
+
+        .mic-button {
+            position: relative;
+            flex: none;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            color: #fff;
+            background: var(--grad-btn);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .mic-button:hover:not(:disabled) { transform: scale(1.06); }
+        .mic-button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        .mic-button .bars {
+            display: none;
+            align-items: center;
+            gap: 3px;
+            height: 20px;
+        }
+
+        .mic-button .bars i {
+            display: block;
+            width: 3px;
+            height: 100%;
+            background: #fff;
+            border-radius: 3px;
+            animation: bounce 0.9s ease-in-out infinite;
+        }
+
+        .mic-button .bars i:nth-child(2) { animation-delay: 0.15s; }
+        .mic-button .bars i:nth-child(3) { animation-delay: 0.3s; }
+        .mic-button .bars i:nth-child(4) { animation-delay: 0.45s; }
+
+        .mic-button.listening .icon { display: none; }
+        .mic-button.listening .bars { display: flex; }
+
+        .mic-button.listening::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border: 2px solid var(--magenta);
+            border-radius: 50%;
+            animation: ring 1.5s ease-out infinite;
+        }
+
+        @keyframes ring {
+            0%   { transform: scale(0.88); opacity: 0.8; }
+            100% { transform: scale(1.25); opacity: 0; }
+        }
+
+        #voiceStatus {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+
+        /* chat card */
+
+        .chat-card {
+            margin-top: 14px;
+            padding: 14px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            box-shadow: 0 20px 40px -28px rgba(60, 10, 80, 0.5);
+        }
+
+        .chat-title {
+            padding: 2px 4px 10px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .chat-title span {
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .conversation {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 220px;
+            padding: 2px 6px 6px 2px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--line) transparent;
+        }
+
+        .message {
+            position: relative;
+            max-width: 86%;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .assistant-message {
+            align-self: flex-start;
+            margin-left: 38px;
+            background: #faf4f6;
+            border-radius: 4px 16px 16px 16px;
+        }
+
+        .assistant-message::before {
+            content: "S";
+            position: absolute;
+            left: -38px;
+            top: 0;
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            background: var(--ink);
+            border-radius: 50%;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            color: #fff;
+            background: var(--grad-btn);
+            border-radius: 16px 4px 16px 16px;
+        }
+
+        .input-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 5px 5px 5px 16px;
+            background: #faf6f6;
+            border: 1.5px solid var(--line);
+            border-radius: 16px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .input-area:focus-within {
+            border-color: var(--magenta);
+            box-shadow: 0 0 0 4px rgba(201, 79, 184, 0.12);
+        }
+
+        #messageInput {
+            flex: 1;
+            min-width: 0;
+            padding: 9px 0;
+            font-size: 13.5px;
+            color: var(--ink);
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+
+        #messageInput::placeholder { color: #a8979d; }
+
+        #sendButton {
+            padding: 0 20px;
+            height: 38px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #fff;
+            background: var(--ink);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: opacity 0.15s ease;
+        }
+
+        #sendButton:hover:not(:disabled) { opacity: 0.85; }
+        #sendButton:disabled { opacity: 0.45; cursor: not-allowed; }
+
+
+        /* ---------- Bottom strip ---------- */
+
+        .strip {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px 14px;
+            padding: 16px 24px;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.85);
+            border-top: 1px solid var(--line);
+        }
+
+        .strip-link {
+            padding: 0;
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--grad-text);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        /* ---------- Responsive ---------- */
+
+        @media (max-width: 1100px) {
+
+            body { padding: 24px 20px; }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 32px 32px 36px;
+            }
+
+            .topbar { padding: 22px 32px 0; }
+
+            .visual {
+                width: 100%;
+                max-width: 760px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 760px) {
+
+            body { padding: 12px; }
+
+            .app { border-radius: 26px; }
+
+            .topbar {
+                grid-template-columns: 1fr auto;
+                padding: 18px 20px 0;
+            }
+
+            .nav { display: none; }
+
+            .hero { padding: 26px 20px 28px; gap: 28px; }
+
+            .visual {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .stage { grid-column: 1 / -1; order: 1; }
+
+            .tiles,
+            .tiles.right {
+                display: contents;
+            }
+
+            .metric { order: 2; }
+
+            .spark { display: none; }
+
+            .badge { top: -12px; }
+
+            .message { max-width: 92%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .wave i,
+            .mic-button .bars i,
+            .mic-button.listening::after { animation: none !important; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ================= Top bar ================= -->
+
+        <header class="topbar">
+
+            <div class="brand">
+                <span class="brand-mark">S</span>
+                <div class="brand-text">
+                    <h1>Snapdeal</h1>
+                    <p>Seller Business Assistant</p>
+                </div>
+            </div>
+
+            <nav class="nav" aria-label="Sections">
+                <a href="#assistant">Assistant</a>
+                <a href="#assistant">Sales</a>
+                <a href="#assistant">Orders</a>
+                <a href="#assistant">Inventory</a>
+                <a href="#assistant">Support</a>
+            </nav>
+
+            <div class="top-actions">
+                <span class="icon-btn" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+                </span>
+                <span class="icon-btn" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1-4 4-6 8-6s7 2 8 6"></path></svg>
+                </span>
+            </div>
+
+        </header>
+
+
+        <!-- ================= Hero ================= -->
+
+        <section class="hero" id="assistant">
+
+            <div class="intro">
+
+                <h2 class="headline">
+                    <span class="grad">AI account manager</span>
+                    to grow your Snapdeal business
+                </h2>
+
+                <p class="lede">
+                    Speak with your account manager about sales, inventory
+                    and how your store is performing, and get clear next
+                    steps in seconds.
+                </p>
+
+                <div class="cta">
+                    <button id="startTalk" class="btn btn-primary" type="button">
+                        <span class="btn-dot">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0"></path><path d="M12 18v3"></path></svg>
+                        </span>
+                        Start talking
+                    </button>
+
+                    <button id="typeInstead" class="btn btn-ghost" type="button">
+                        Type instead
+                    </button>
+                </div>
+
+                <ul class="perks">
+                    <li>Voice or text</li>
+                    <li>Available anytime</li>
+                    <li>No setup needed</li>
+                </ul>
+
+            </div>
+
+
+            <div class="visual">
+
+                <!-- left tiles -->
+                <div class="tiles left">
+
+                    <div class="metric">
+                        <p class="metric-label">Monthly sales</p>
+                        <p class="metric-value">₹1,35,000</p>
+                        <p class="metric-change">&#9660; 32.5%</p>
+                    </div>
+
+                    <div class="metric">
+                        <p class="metric-label">Cancellation rate</p>
+                        <p class="metric-value">14%</p>
+                        <p class="metric-change">&#9650; 6 pts</p>
+                    </div>
+
+                </div>
+
+
+                <!-- centre stage -->
+                <div class="stage">
+
+                    <span class="badge">
+                        <span class="status-dot"></span>
+                        Account manager online
+                    </span>
+
+                    <span class="spark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"></path></svg>
+                    </span>
+
+                    <div class="voice">
+
+                        <div class="voice-card">
+                            <h3>Account review</h3>
+                            <p>Live with your Snapdeal AI</p>
+                            <div class="wave" id="wave" aria-hidden="true"></div>
+                        </div>
+
+                        <div class="voice-bar">
+
+                            <button id="micButton" class="mic-button" type="button" aria-label="Speak to the assistant">
+                                <svg class="icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+                                    <path d="M5 11a7 7 0 0 0 14 0"></path>
+                                    <path d="M12 18v3"></path>
+                                    <path d="M9 21h6"></path>
+                                </svg>
+                                <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                            </button>
+
+                            <p id="voiceStatus" role="status" aria-live="polite">Click the microphone to speak</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chat-card">
+
+                        <p class="chat-title">Conversation <span>· ask anything about your seller performance</span></p>
+
+                        <div id="conversation" class="conversation">
+                            <div class="message assistant-message">
+                                Hello! I'm your Snapdeal account manager.
+                                I've reviewed your latest business performance.
+                                What would you like to discuss today?
+                            </div>
+                        </div>
+
+                        <div class="input-area">
+
+                            <input
+                                type="text"
+                                id="messageInput"
+                                placeholder="Or type your message here"
+                                autocomplete="off"
+                            >
+
+                            <button id="sendButton" type="button">
+                                Send
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- right tiles -->
+                <div class="tiles right">
+
+                    <div class="metric">
+                        <p class="metric-label">Orders</p>
+                        <p class="metric-value">270</p>
+                        <p class="metric-change">&#9660; 32.5%</p>
+                    </div>
+
+                    <div class="metric">
+                        <p class="metric-label">Out of stock</p>
+                        <p class="metric-value">18</p>
+                        <p class="metric-change">&#9650; from 5</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= Bottom strip ================= -->
+
+        <footer class="strip">
+            <p><strong>Today's focus:</strong> sales and orders are both down 32.5% this month.</p>
+            <button id="askNow" class="strip-link" type="button">Ask what to do next &rarr;</button>
+        </footer>
+
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+        // Decorative waveform bars for the dark voice card.
+        (function () {
+
+            const wave = document.getElementById("wave");
+
+            for (let i = 0; i < 44; i++) {
+
+                const bar = document.createElement("i");
+                const height = 10 + Math.round(46 * Math.abs(Math.sin(i * 0.7) * Math.cos(i * 0.23)));
+
+                bar.style.height = height + "px";
+                bar.style.animationDelay = (i * 0.035) + "s";
+
+                if (i < 18) {
+                    bar.className = "played";
+                }
+
+                wave.appendChild(bar);
+            }
+
+            const micButton = document.getElementById("micButton");
+            const messageInput = document.getElementById("messageInput");
+
+            function focusInput() {
+                messageInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                messageInput.focus({ preventScroll: true });
+            }
+
+            document.getElementById("startTalk")
+                .addEventListener("click", () => micButton.click());
+
+            document.getElementById("typeInstead")
+                .addEventListener("click", focusInput);
+
+            document.getElementById("askNow")
+                .addEventListener("click", () => {
+                    messageInput.value = "Why are my sales down and what should I do next?";
+                    focusInput();
+                });
+
+        })();
+    </script>
+
+</body>
+</html>
